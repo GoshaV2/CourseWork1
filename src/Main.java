@@ -36,7 +36,6 @@ public class Main {
         System.out.println("Сотрудник с минимальной зарплатой: " + employeeBook.findEmployeeWithMinSalary());
         System.out.println("Сотрудник с максимальной зарплатой: " + employeeBook.findEmployeeWithMaxSalary());
 
-        System.out.println("Размер книги сотрудников: " + employeeBook.getSize());
         System.out.println("Количество сотрудников: " + employeeBook.getCountEmployee());
         System.out.println("Количество сотрудников в 4 отделе: " + employeeBook.getCountEmployeeInDepartment("4"));
     }

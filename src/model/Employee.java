@@ -23,9 +23,6 @@ public class Employee {
         return fullName;
     }
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
 
     public float getSalary() {
         return salary;

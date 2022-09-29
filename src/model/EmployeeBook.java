@@ -3,32 +3,27 @@ package model;
 public class EmployeeBook {
     private Employee[] employees;
     private int countEmployee; //количество рабочих
-    private int size; //размер книги
 
     public EmployeeBook(int size) {
-        employees = new Employee[5];
-        countEmployee = 0;
-        this.size = size;
         if (size == 0) {
-            this.size += 1;
+            size++;
         }
+        employees = new Employee[size];
+        countEmployee = 0;
     }
 
     public int getCountEmployee() {
         return countEmployee;
     }
 
-    public int getSize() {
-        return size;
-    }
 
     public Employee[] getEmployees() {
         return employees;
     }
 
     public void updateEmployee(String fullName, float newSalary, String newDepartment) {
-        for (int i = 0; i < size; i++) {
-            if (employees[i] != null && employees[i].getFullName() == fullName) {
+        for (int i = 0; i < employees.length; i++) {
+            if (employees[i] != null && employees[i].getFullName().equals(fullName)) {
                 employees[i].setDepartment(newDepartment);
                 employees[i].setSalary((newSalary));
             }
@@ -36,16 +31,16 @@ public class EmployeeBook {
     }
 
     public void updateEmployee(String fullName, float newSalary) {
-        for (int i = 0; i < size; i++) {
-            if (employees[i] != null && employees[i].getFullName() == fullName) {
+        for (int i = 0; i < employees.length; i++) {
+            if (employees[i] != null && employees[i].getFullName().equals(fullName)) {
                 employees[i].setSalary((newSalary));
             }
         }
     }
 
     public void updateEmployee(String fullName, String newDepartment) {
-        for (int i = 0; i < size; i++) {
-            if (employees[i] != null && employees[i].getFullName() == fullName) {
+        for (int i = 0; i < employees.length; i++) {
+            if (employees[i] != null && employees[i].getFullName().equals(fullName)) {
                 employees[i].setDepartment(newDepartment);
             }
         }
@@ -62,10 +57,10 @@ public class EmployeeBook {
 
     public void addNewEmployee(String fullName, float salary, String department) {
         Employee employee = new Employee(fullName, salary, department);
-        if (countEmployee == size) {
+        if (countEmployee == employees.length) {
             resize(2);
         }
-        for (int i = 0; i < size; i++) {
+        for (int i = 0; i < employees.length; i++) {
             if (employees[i] == null) {
                 employees[i] = employee;
                 countEmployee++;
@@ -75,7 +70,7 @@ public class EmployeeBook {
     }
 
     public void removeEmployee(int id) {
-        for (int i = 0; i < size; i++) {
+        for (int i = 0; i < employees.length; i++) {
             if (employees[i] != null && employees[i].getId() == id) {
                 employees[i] = null;
                 countEmployee--;
@@ -85,7 +80,7 @@ public class EmployeeBook {
     }
 
     public Employee findEmployeeById(int id) {
-        for (int i = 0; i < size; i++) {
+        for (int i = 0; i < employees.length; i++) {
             if (employees[i] != null && employees[i].getId() == id) {
                 return employees[i];
             }
@@ -94,8 +89,8 @@ public class EmployeeBook {
     }
 
     public Employee findEmployeeByFullName(String fullName) {
-        for (int i = 0; i < size; i++) {
-            if (employees[i] != null && employees[i].getFullName() == fullName) {
+        for (int i = 0; i < employees.length; i++) {
+            if (employees[i] != null && employees[i].getFullName().equals(fullName)) {
                 return employees[i];
             }
         }
@@ -103,9 +98,9 @@ public class EmployeeBook {
     }
 
     public Employee[] findEmployeesInDepartment(String department) {
-        Employee[] employees = new Employee[countEmployee];
+        Employee[] employees = new Employee[getCountEmployeeInDepartment(department)];
         int k = 0; //счётчик работников в отделе
-        for (int i = 0; i < size; i++) {
+        for (int i = 0; i < employees.length; i++) {
             if (this.employees != null && this.employees[i].getDepartment().equals(department)) {
                 employees[k] = this.employees[i];
                 k++;
@@ -119,11 +114,9 @@ public class EmployeeBook {
         Employee findingEmployee = null;
         for (Employee employee :
                 employees) {
-            if (employee != null) {
-                if (employee.getSalary() <= salary) {
-                    salary = employee.getSalary();
-                    findingEmployee = employee;
-                }
+            if (employee != null && employee.getSalary() <= salary) {
+                salary = employee.getSalary();
+                findingEmployee = employee;
             }
         }
         return findingEmployee;
@@ -134,11 +127,11 @@ public class EmployeeBook {
         Employee findingEmployee = null;
         for (Employee employee :
                 employees) {
-            if (employee != null) {
-                if (employee.getSalary() >= salary) {
+            if (employee != null && employee.getSalary() >= salary) {
+
                     salary = employee.getSalary();
                     findingEmployee = employee;
-                }
+
             }
         }
         return findingEmployee;
@@ -177,11 +170,9 @@ public class EmployeeBook {
         Employee findingEmployee = null;
         for (Employee employee :
                 employees) {
-            if (employee != null && employee.getDepartment() == department) {
-                if (employee.getSalary() <= salary) {
+            if (employee != null && employee.getDepartment().equals(department) && employee.getSalary() <= salary) {
                     salary = employee.getSalary();
                     findingEmployee = employee;
-                }
             }
         }
         return findingEmployee;
@@ -192,11 +183,9 @@ public class EmployeeBook {
         Employee findingEmployee = null;
         for (Employee employee :
                 employees) {
-            if (employee != null && employee.getDepartment() == department) {
-                if (employee.getSalary() >= salary) {
+            if (employee != null && employee.getDepartment().equals(department) && employee.getSalary() >= salary) {
                     salary = employee.getSalary();
                     findingEmployee = employee;
-                }
             }
         }
         return findingEmployee;
@@ -206,7 +195,7 @@ public class EmployeeBook {
         int countEmployees = 0;
         for (Employee employee :
                 employees) {
-            if (employee != null && employee.getDepartment() == department) {
+            if (employee != null && employee.getDepartment().equals(department)) {
                 countEmployees++;
             }
         }
@@ -217,7 +206,7 @@ public class EmployeeBook {
         int sum = 0;
         for (Employee employee :
                 employees) {
-            if (employee != null && employee.getDepartment() == department) {
+            if (employee != null && employee.getDepartment().equals(department)) {
                 sum += employee.getSalary();
             }
         }
@@ -233,7 +222,7 @@ public class EmployeeBook {
         int k = 0; //счётчик
         for (Employee employee :
                 employees) {
-            if (employee != null && employee.getDepartment() == department) {
+            if (employee != null && employee.getDepartment().equals(department)) {
                 fullName[k] = employee.getFullName();
                 k++;
             }
@@ -244,21 +233,20 @@ public class EmployeeBook {
     public void indexAllSalaryInDepartment(int percent, String department) {
         for (Employee employee :
                 employees) {
-            if (employee != null && employee.getDepartment() == department) {
+            if (employee != null && employee.getDepartment().equals(department)) {
                 employee.setSalary(employee.getSalary() * ((float) percent / 100 + 1));
             }
         }
     }
 
     private void resize(int n) {
-        Employee[] tempArray = new Employee[size];
-        for (int i = 0; i < size; i++) {
+        Employee[] tempArray = new Employee[employees.length * n];
+        for (int i = 0; i < employees.length; i++) {
             tempArray[i] = employees[i];
         }
-        employees = new Employee[size * 2];
-        for (int i = 0; i < size; i++) {
+        employees = new Employee[employees.length * 2];
+        for (int i = 0; i < employees.length; i++) {
             employees[i] = tempArray[i];
         }
-        size *= n;
     }
 }
