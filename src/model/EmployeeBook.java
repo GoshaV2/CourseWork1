@@ -244,7 +244,7 @@ public class EmployeeBook {
         for (int i = 0; i < employees.length; i++) {
             tempArray[i] = employees[i];
         }
-        employees = new Employee[employees.length * 2];
+        employees = new Employee[employees.length * n];
         for (int i = 0; i < employees.length; i++) {
             employees[i] = tempArray[i];
         }
